@@ -34,3 +34,19 @@ export const getOne = async (
     next(error)
   }
 }
+
+export const createSport = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const sport = new Sport(req.body)
+
+  try {
+    await sport.save()
+
+    res.status(201).json({ message: 'Sport Created!' })
+  } catch (error) {
+    next(error)
+  }
+}
