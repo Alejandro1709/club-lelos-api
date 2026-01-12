@@ -14,3 +14,23 @@ export const getAll = async (
     next(error)
   }
 }
+
+export const getOne = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { slug } = req.params
+
+  try {
+    const sport = await Sport.findOne({ slug })
+
+    if (!sport) {
+      return res.status(404).json({ message: 'This sport does not exists' })
+    }
+
+    res.status(200).json(sport)
+  } catch (error) {
+    next(error)
+  }
+}
