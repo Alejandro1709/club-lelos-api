@@ -36,3 +36,5 @@ const sportSchema: Schema = new Schema(
 )
 
 const Sport = mongoose.model<ISport>('Sport', sportSchema)
+
+export default Sport
