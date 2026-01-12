@@ -2,6 +2,7 @@ import express, { type Application } from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import connectDB from './config/db'
+import { globalError, notFoundError } from './middlewares/error'
 
 dotenv.config()
 
@@ -14,5 +15,9 @@ app.use(express.json())
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
+
+app.use(notFoundError)
+
+app.use(globalError)
 
 export default app
