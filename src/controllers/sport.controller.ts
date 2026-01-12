@@ -7,7 +7,7 @@ export const getAll = async (
   next: NextFunction
 ) => {
   try {
-    const sports = await Sport.find()
+    const sports = await Sport.find().populate('category')
 
     res.status(200).json(sports)
   } catch (error) {
@@ -20,10 +20,10 @@ export const getOne = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { slug } = req.params
+  const { id } = req.params
 
   try {
-    const sport = await Sport.findOne({ slug })
+    const sport = await Sport.findById(id).populate('category')
 
     if (!sport) {
       return res.status(404).json({ message: 'This sport does not exists' })

@@ -8,8 +8,8 @@ const router: Router = Router()
 router.get('/', getAll)
 
 router.get(
-  '/:slug',
-  param('slug').isSlug().withMessage('Invalid Sport Slug'),
+  '/:id',
+  param('id').isMongoId().withMessage('Invalid Sport Id'),
   handleInputErrors,
   getOne
 )
