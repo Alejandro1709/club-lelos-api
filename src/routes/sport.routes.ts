@@ -8,6 +8,7 @@ import {
 } from '../controllers/sport.controller'
 import { body, param } from 'express-validator'
 import { handleInputErrors } from '../middlewares/validation'
+import { authenticate, authorize } from '../middlewares/auth'
 
 const router: Router = Router()
 
@@ -33,6 +34,8 @@ router.post(
     .notEmpty()
     .withMessage('The category cannot be empty'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   createSport
 )
 
@@ -49,6 +52,8 @@ router.patch(
     .withMessage('The category must be a valid MongoID')
     .optional(),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   updateSport
 )
 
@@ -56,6 +61,8 @@ router.delete(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Sport Id'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   deleteSport
 )
 
