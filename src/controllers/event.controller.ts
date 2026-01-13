@@ -1,5 +1,6 @@
 import Event from '../models/Event'
 import type { NextFunction, Request, Response } from 'express'
+import AppError from '../utils/AppError'
 
 export const getAll = async (
   req: Request,
@@ -24,7 +25,7 @@ export const getOne = async (
     const event = await Event.findById(req.params.id).populate('sport')
 
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' })
+      return next(new AppError('This event does not exist', 404))
     }
 
     res.status(200).json(event)
@@ -58,7 +59,7 @@ export const updateEvent = async (
     const event = await Event.findById(req.params.id)
 
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' })
+      return next(new AppError('This event does not exist', 404))
     }
 
     event.title = req.body.title || event.title
@@ -87,7 +88,7 @@ export const deleteEvent = async (
     const event = await Event.findById(req.params.id)
 
     if (!event) {
-      return res.status(404).json({ message: 'Event not found' })
+      return next(new AppError('This event does not exist', 404))
     }
 
     await event.deleteOne()
