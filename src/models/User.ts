@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from 'mongoose'
+import type { IReservation } from './Reservation'
 
 export interface IUser extends Document {
   name: string
@@ -6,6 +7,7 @@ export interface IUser extends Document {
   password: string
   confirmed: boolean
   role: string
+  reservations?: PopulatedDoc<IReservation & Document>[]
 }
 
 const userSchema: Schema = new Schema(
@@ -34,6 +36,12 @@ const userSchema: Schema = new Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
+    reservations: [
+      {
+        type: Types.ObjectId,
+        ref: 'Reservation',
+      },
+    ],
   },
   {
     timestamps: true,
