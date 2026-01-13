@@ -8,15 +8,18 @@ import {
   getOne,
   updateCategory,
 } from '../controllers/category.controller'
+import { authenticate, authorize } from '../middlewares/auth'
 
 const router: Router = Router()
 
-router.get('/', getAll)
+router.get('/', authenticate, getAll)
 
 router.get(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Category Id'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   getOne
 )
 
@@ -24,6 +27,8 @@ router.post(
   '/',
   body('name').isString().notEmpty().withMessage('The name cannot be empty'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   createCategory
 )
 
@@ -32,6 +37,8 @@ router.patch(
   param('id').isMongoId().withMessage('Invalid Category Id'),
   body('name').isString().withMessage('The name cannot be empty').optional(),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   updateCategory
 )
 
@@ -39,6 +46,8 @@ router.delete(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Category Id'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   deleteCategory
 )
 

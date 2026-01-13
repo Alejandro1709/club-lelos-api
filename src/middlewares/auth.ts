@@ -28,7 +28,7 @@ export const authenticate = async (
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     if (typeof decoded === 'object' && decoded.id) {
-      const user = await User.findById(decoded.id).select('_id name email')
+      const user = await User.findById(decoded.id).select('_id name email role')
 
       if (user) {
         req.user = user
@@ -42,3 +42,17 @@ export const authenticate = async (
     next(error)
   }
 }
+
+export const authorize =
+  (...allowedRoles: string[]) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new AppError('Not Authorized', 401))
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return next(new AppError('Forbidden', 403))
+    }
+
+    next()
+  }
