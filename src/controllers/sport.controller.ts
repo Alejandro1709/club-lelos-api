@@ -50,3 +50,47 @@ export const createSport = async (
     next(error)
   }
 }
+
+export const updateSport = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const sport = await Sport.findById(req.params.id)
+
+    if (!sport) {
+      return res.status(404).json({ message: 'This sport does not exists' })
+    }
+
+    sport.title = req.body.title || sport.title
+    sport.description = req.body.description || sport.description
+    sport.category = req.body.category || sport.category
+
+    await sport.save()
+
+    res.status(200).json({ message: 'Sport updated!' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteSport = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const sport = await Sport.findById(req.params.id)
+
+    if (!sport) {
+      return res.status(404).json({ message: 'This sport does not exists' })
+    }
+
+    await sport.deleteOne()
+
+    res.status(200).json({ message: 'Sport deleted!' })
+  } catch (error) {
+    next(error)
+  }
+}
