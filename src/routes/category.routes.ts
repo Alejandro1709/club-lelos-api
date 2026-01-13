@@ -30,7 +30,7 @@ router.post(
 router.patch(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Category Id'),
-  body('name').isString().notEmpty().withMessage('The name cannot be empty'),
+  body('name').isString().withMessage('The name cannot be empty').optional(),
   handleInputErrors,
   updateCategory
 )

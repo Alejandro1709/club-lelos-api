@@ -51,28 +51,37 @@ router.post(
 router.patch(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Event Id'),
-  body('title').isString().notEmpty().withMessage('The title cannot be empty'),
+  body('title').isString().withMessage('The title cannot be empty').optional(),
   body('description')
     .isString()
-    .notEmpty()
-    .withMessage('The description cannot be empty'),
-  body('sport').isMongoId().withMessage('Sport field must be a valid mongoID'),
-  body('price').isFloat({ min: 0 }).withMessage('The price must be positive'),
+    .withMessage('The description cannot be empty')
+    .optional(),
+  body('sport')
+    .isMongoId()
+    .withMessage('Sport field must be a valid mongoID')
+    .optional(),
+  body('price')
+    .isFloat({ min: 0 })
+    .withMessage('The price must be positive')
+    .optional(),
   body('location')
     .isString()
-    .notEmpty()
-    .withMessage('The location cannot be empty'),
+    .withMessage('The location cannot be empty')
+    .optional(),
   body('maxPersonCount')
     .isInt({ min: 1 })
-    .withMessage('maxPersonCount must be 1 or greater than 1'),
+    .withMessage('maxPersonCount must be 1 or greater than 1')
+    .optional(),
   body('startDate')
     .isISO8601()
     .toDate()
-    .withMessage('startDate must be a valid date'),
+    .withMessage('startDate must be a valid date')
+    .optional(),
   body('endDate')
     .isISO8601()
     .toDate()
-    .withMessage('endDate must be a valid date'),
+    .withMessage('endDate must be a valid date')
+    .optional(),
   handleInputErrors,
   updateEvent
 )
