@@ -1,6 +1,5 @@
 import mongoose, { Document, PopulatedDoc, Schema, Types } from 'mongoose'
 import type { ISport } from './Sport'
-import type { NextFunction } from 'express'
 
 export interface IEvent extends Document {
   title: string
@@ -74,13 +73,6 @@ const eventSchema: Schema = new Schema(
     timestamps: true,
   }
 )
-
-eventSchema.pre('save', function (next: NextFunction) {
-  if (this.startDate >= this.endDate) {
-    return next(new Error('Start date must be before end date'))
-  }
-  next()
-})
 
 const Event = mongoose.model<IEvent>('Event', eventSchema)
 

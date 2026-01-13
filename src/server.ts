@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import connectDB from './config/db'
 import sportRoutes from './routes/sport.routes'
 import categoriesRoutes from './routes/category.routes'
+import eventsRoutes from './routes/event.routes'
 import { globalError, notFoundError } from './middlewares/error'
 
 dotenv.config()
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/sports', sportRoutes)
 app.use('/api/v1/categories', categoriesRoutes)
+app.use('/api/v1/events', eventsRoutes)
 
 app.use(notFoundError)
 
