@@ -1,5 +1,11 @@
 import { Router } from 'express'
-import { createSport, getAll, getOne } from '../controllers/sport.controller'
+import {
+  createSport,
+  deleteSport,
+  getAll,
+  getOne,
+  updateSport,
+} from '../controllers/sport.controller'
 import { body, param } from 'express-validator'
 import { handleInputErrors } from '../middlewares/validation'
 
@@ -28,6 +34,20 @@ router.post(
     .withMessage('The category cannot be empty'),
   handleInputErrors,
   createSport
+)
+
+router.patch(
+  '/:id',
+  param('id').isMongoId().withMessage('Invalid Sport Id'),
+  handleInputErrors,
+  updateSport
+)
+
+router.delete(
+  '/:id',
+  param('id').isMongoId().withMessage('Invalid Sport Id'),
+  handleInputErrors,
+  deleteSport
 )
 
 export default router
