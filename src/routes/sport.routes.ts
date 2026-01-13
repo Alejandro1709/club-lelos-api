@@ -39,6 +39,16 @@ router.post(
 router.patch(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Sport Id'),
+  body('title').isString().notEmpty().withMessage('The title cannot be empty'),
+  body('description')
+    .isString()
+    .notEmpty()
+    .withMessage('The description cannot be empty'),
+  body('category')
+    .isMongoId()
+    .withMessage('The category must be a valid MongoID')
+    .notEmpty()
+    .withMessage('The category cannot be empty'),
   handleInputErrors,
   updateSport
 )

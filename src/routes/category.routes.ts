@@ -22,7 +22,7 @@ router.get(
 
 router.post(
   '/',
-  body('name').isString().notEmpty().withMessage('The title cannot be empty'),
+  body('name').isString().notEmpty().withMessage('The name cannot be empty'),
   handleInputErrors,
   createCategory
 )
@@ -30,6 +30,7 @@ router.post(
 router.patch(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Category Id'),
+  body('name').isString().notEmpty().withMessage('The name cannot be empty'),
   handleInputErrors,
   updateCategory
 )
