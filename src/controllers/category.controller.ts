@@ -48,3 +48,45 @@ export const createCategory = async (
     next(error)
   }
 }
+
+export const updateCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const category = await Category.findById(req.params.id)
+
+    if (!category) {
+      return res.status(404).json({ message: 'This category does not exists' })
+    }
+
+    category.name = req.body.name || category.name
+
+    await category.save()
+
+    res.status(200).json({ message: 'Category Updated!' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const category = await Category.findById(req.params.id)
+
+    if (!category) {
+      return res.status(404).json({ message: 'This category does not exists' })
+    }
+
+    await category.deleteOne()
+
+    res.status(200).json({ message: 'Category Deleted!' })
+  } catch (error) {
+    next(error)
+  }
+}
