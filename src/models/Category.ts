@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose'
 export interface ICategory extends Document {
   id: string
   name: string
+  isActive: boolean
 }
 
 const categorySchema: Schema = new Schema(
@@ -13,6 +14,10 @@ const categorySchema: Schema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {

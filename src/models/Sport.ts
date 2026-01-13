@@ -7,6 +7,7 @@ export interface ISport extends Document {
   slug?: string
   description: string
   category: PopulatedDoc<ICategory & Document>
+  isActive: boolean
 }
 
 const sportSchema: Schema = new Schema(
@@ -28,6 +29,11 @@ const sportSchema: Schema = new Schema(
     category: {
       type: Types.ObjectId,
       ref: 'Category',
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
