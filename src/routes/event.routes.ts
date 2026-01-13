@@ -8,6 +8,7 @@ import {
   getOne,
   updateEvent,
 } from '../controllers/event.controller'
+import { authenticate, authorize } from '../middlewares/auth'
 
 const router: Router = Router()
 
@@ -45,6 +46,8 @@ router.post(
     .toDate()
     .withMessage('endDate must be a valid date'),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   createEvent
 )
 
@@ -83,12 +86,16 @@ router.patch(
     .withMessage('endDate must be a valid date')
     .optional(),
   handleInputErrors,
+  authenticate,
+  authorize('admin'),
   updateEvent
 )
 
 router.delete(
   '/:id',
   param('id').isMongoId().withMessage('Invalid Event Id'),
+  authenticate,
+  authorize('admin'),
   deleteEvent
 )
 
