@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import Category from '../models/Category'
+import AppError from '../utils/AppError'
 
 export const getAll = async (
   req: Request,
@@ -24,7 +25,7 @@ export const getOne = async (
     const category = await Category.findById(req.params.id)
 
     if (!category) {
-      return res.status(404).json({ message: 'This category does not exists' })
+      return next(new AppError('This category does not exist', 404))
     }
 
     res.status(200).json(category)
@@ -58,7 +59,7 @@ export const updateCategory = async (
     const category = await Category.findById(req.params.id)
 
     if (!category) {
-      return res.status(404).json({ message: 'This category does not exists' })
+      return next(new AppError('This category does not exist', 404))
     }
 
     category.name = req.body.name || category.name
@@ -80,7 +81,7 @@ export const deleteCategory = async (
     const category = await Category.findById(req.params.id)
 
     if (!category) {
-      return res.status(404).json({ message: 'This category does not exists' })
+      return next(new AppError('This category does not exist', 404))
     }
 
     await category.deleteOne()

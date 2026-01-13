@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import Sport from '../models/Sport'
+import AppError from '../utils/AppError'
 
 export const getAll = async (
   req: Request,
@@ -26,7 +27,7 @@ export const getOne = async (
     const sport = await Sport.findById(id).populate('category')
 
     if (!sport) {
-      return res.status(404).json({ message: 'This sport does not exists' })
+      return next(new AppError('This sport does not exist', 404))
     }
 
     res.status(200).json(sport)
@@ -60,7 +61,7 @@ export const updateSport = async (
     const sport = await Sport.findById(req.params.id)
 
     if (!sport) {
-      return res.status(404).json({ message: 'This sport does not exists' })
+      return next(new AppError('This sport does not exist', 404))
     }
 
     sport.title = req.body.title || sport.title
@@ -84,7 +85,7 @@ export const deleteSport = async (
     const sport = await Sport.findById(req.params.id)
 
     if (!sport) {
-      return res.status(404).json({ message: 'This sport does not exists' })
+      return next(new AppError('This sport does not exist', 404))
     }
 
     await sport.deleteOne()
