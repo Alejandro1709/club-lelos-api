@@ -57,3 +57,11 @@ export const loginUser = async (
     next(error)
   }
 }
+
+export const getMe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.status(200).json(req.user)
+}
