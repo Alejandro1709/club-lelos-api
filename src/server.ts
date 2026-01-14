@@ -1,6 +1,7 @@
 import express, { type Application } from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
+import cors from 'cors'
 import connectDB from './config/db'
 import authRoutes from './routes/auth.routes'
 import sportRoutes from './routes/sport.routes'
@@ -8,6 +9,7 @@ import categoriesRoutes from './routes/category.routes'
 import reservationsRoutes from './routes/reservation.routes'
 import eventsRoutes from './routes/event.routes'
 import { globalError, notFoundError } from './middlewares/error'
+import { corsConfig } from './config/cors'
 
 dotenv.config()
 
@@ -16,6 +18,7 @@ const app: Application = express()
 connectDB()
 
 app.use(express.json())
+app.use(cors(corsConfig))
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
